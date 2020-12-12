@@ -1,0 +1,104 @@
+/* 1. Which customers live in New Jersey? List each customer’s last name, first name, and
+state. */
+
+SELECT lastname,
+	   firstname,
+	   state
+FROM   customers
+WHERE  state = 'NJ'
+
+/*3. Which books aren’t in the Fitness category? List each book title and category.*/
+
+SELECT title, 
+       category
+FROM   books
+WHERE NOT category = 'FITNESS'
+
+/*4. Which customers live in Georgia or New Jersey? Put the results in ascending order by
+last name. List each customer’s customer number, last name, and state. Write this query
+in two different ways.*/
+
+SELECT customer#,
+	   lastname,
+	   state
+FROM   customers
+WHERE  state IN ('NJ', 'GA')
+ORDER  BY lastname ASC
+
+SELECT customer#,
+	   lastname,
+	   state
+FROM   customers
+WHERE  state = 'NJ' OR state = 'GA'
+ORDER  BY lastname ASC
+
+/*6. List all authors whose last name contains the letter pattern “IN.” Put the results in
+order of last name, then first name. List each author’s last name and first name.*/
+
+SELECT lname,
+	   fname
+FROM   author
+WHERE  lname LIKE '%IN%'
+ORDER BY lname, fname
+
+/*7. List all customers who were referred to the bookstore by another customer. List each
+customer’s last name and the number of the customer who made the referral.*/
+
+SELECT lastname,
+	   referred
+FROM   customers
+WHERE NOT referred like '%-%'
+
+/*8. Display the book title and category for all books in the Children and Cooking
+categories. Create three different queries to accomplish this task: a) a search pattern
+operation, b) a logical operator, and c) another operator not used in a or b.*/
+
+/* a) a search pattern operation*/
+SELECT title,
+	   category
+FROM   books
+WHERE  category LIKE 'CH%' OR category LIKE 'COO%'
+/* b) a logical operator */
+SELECT title,
+	   category
+FROM   books
+WHERE  category LIKE 'CH%' OR category = 'COOKING'
+/* c) another operator not used in a or b. */
+SELECT title,
+	   category
+FROM   books
+WHERE  category IN ('CHILDREN', 'COOKING')
+
+
+/*9. Use a search pattern to find any book title with “A” for the second letter and “N” for
+the fourth letter. List each book’s ISBN and title. Sort the list by title in descending order.*/
+
+SELECT isbn,
+	   title
+FROM   books
+WHERE  title LIKE '_A_N%'
+ORDER BY title DESC
+
+/*10. List the title and publish date of any computer book published in 2005. Perform the
+task of searching for the publish date by using three different methods: a) a range
+operator, b) a logical operator, and c) a search pattern operation.*/
+
+/* a) a range operator*/
+SELECT title,
+	   pubdate,
+	   category
+FROM   books
+WHERE  pubdate LIKE '%2005' AND category = 'COMPUTER'
+/* b) a logical operator */
+SELECT title,
+	   pubdate,
+	   category
+FROM   books
+WHERE  pubdate BETWEEN '01/21/2005' AND '12/31/2005' AND category = 'COMPUTER'
+/* c) a search pattern operation */
+SELECT title,
+	   pubdate,
+	   category
+FROM   books
+WHERE  pubdate >= '01/21/2005' AND pubdate <= '12/31/2005' AND category = 'COMPUTER'
+

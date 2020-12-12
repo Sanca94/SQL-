@@ -1,0 +1,40 @@
+/*join Protocol traditonal Join*/
+
+1. What is the Query asking of you
+	* Break Up The Sentence
+		*FROM
+		*WHERE
+		*SELECT
+2. Understand the table Relationships
+	*You NEED an ER diagram(P/F Key relationships)
+	
+3. Break UP the Query into Smaller Do-able Queries
+	* Each phrase Will Be its Own Seperate Query
+	
+4. Join Quieres by
+
+* Column Qualifier [Table1] T
+
+Traditional
+	SELECT [Column 1], [Column 2], [Column 3], [Column 4], [Column 5]
+	From [Table1] T, [Table2] TA
+	WHERE T.[Common Column] = TA.[Common Column]
+	
+Join...on
+	SELECT [Column 1], [Column 1], [Column 1], [Column 1], [Column 1]
+	From [Table1] T JOIN [Table2] TA
+	ON T.[Common Column] = TA.[Common Column]
+	
+------------------------------------------------------------------------
+Traditional
+	SELECT [Column 1], [Column 2], [Column 3], [Column 4], [Column 5]
+	From [Table1] A, [Table2] B, [Table3] C, [Table4] D
+	WHERE A.[Common Column] = B.[Common Column] AND B.[Common Column] = C.[Common Column]
+	
+Join...Using
+	SELECT [Column 1], [Column 1], [Column 1], [Column 1], [Column 1]
+	From [Table1] A JOIN [Table2] B USING(Common Column) JOIN [Table3] C USING(Common Column) JOIN [Table4] D USING(Common Column)
+	WHERE T.[Common Column] = TA.[Common Column]
+
+
+

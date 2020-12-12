@@ -1,0 +1,60 @@
+/* 1. The following SELECT statement executes successfully: True  */
+
+SELECT last_name, job_id, salary AS Sal 
+FROM employees 
+ 
+/*2. The following SELECT statement executes successfully: True*/
+
+SELECT * 
+FROM job_grades 
+ 
+/*3. There are four coding errors in the following statement.
+Can you identify them? SELECT employee_id, last_name sal x 12 ANNUAL SALARY FROM employees */
+
+SELECT employee_id, 
+	   last_name,
+	   salary *12 "ANNUAL SALARY"
+FROM   employees
+ 
+/*4. Your first task is to determine the structure of the DEPARTMENTS table and its Contents. */
+ 
+DESCRIBE departments
+ 
+/*5. Determine the structure of the EMPLOYEES table. */
+
+DESCRIBE employees
+ 
+/*6. The HR department wants a query to display the last name, job ID, hiredate, and employee ID for each employee, with the employee ID appearing first. Provide an alias STARTDATE for the HIRE_DATE column.*/ 
+ 
+SELECT employee_id,
+	   last_name,
+	   job_id,
+	   hire_date AS "STARDATE" 
+FROM   employees
+ 
+/*7. The HR department wants a query to display all unique job IDs from the EMPLOYEES table.*/
+ 
+SELECT UNIQUE job_id
+FROM employees
+ 
+/*8. The HR department wants more descriptive column headings for its report on Employees. Name the column headings Emp#, Employee, Job, and Hire Date, respectively. Then run the query again.*/
+ 
+SELECT employee_id AS "EMP#",
+	   first_name
+	   ||' '||
+	   last_name AS "Employee", 
+	   job_id AS "Job",
+	   hire_date AS "Hire_date"
+FROM   employees
+
+ /*9. The HR department has requested a report of all employees and their job IDs. Display the last name concatenated with the job ID (separated by a comma and space) and name the column Employee and Title.*/ 
+ 
+SELECT last_name ||', '|| job_id AS "Employee and Title"
+FROM   employees
+ 
+/* 10. To familiarize yourself with the data in the EMPLOYEES table, create a query to display all the data from that table. Separate each column output by a comma. Name the column title THE_OUTPUT.*/
+
+SELECT EMPLOYEE_ID || ', ' || FIRST_NAME ||', '|| LAST_NAME||', '||EMAIL||', '||PHONE_NUMBER||', '||HIRE_DATE||', '||JOB_ID||', '||SALARY||', '||COMMISSION_PCT||', '||MANAGER_ID||', '||DEPARTMENT_ID AS "The output"
+FROM employees
+ 
+ 

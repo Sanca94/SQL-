@@ -1,0 +1,13 @@
+/*# Case Conversion*/
+/*LOWER Converts characters to lowercase
+letters. c = Character string or field to convert
+to lowercase*/
+
+LOWER(c)
+
+/*UPPER Converts characters to uppercase
+letters. c = Character string or field to convert
+to uppercase*/
+
+
+UPPER(c)

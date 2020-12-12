@@ -1,0 +1,190 @@
+/*1. Create a list that displays the title of each book and the name and phone number of the
+contact at the publisher’s office for reordering each book. Used Hands */
+
+	/* traditional approach */
+SELECT title, contact, phone
+FROM books b, publisher pub
+WHERE b.pubid = pub.pubid
+	
+	/* JOIN keyword */
+SELECT title, contact, phone
+FROM books b JOIN Publisher pub
+ON b.pubid = pub.pubid
+
+
+
+/*2. Determine which orders haven’t yet shipped and the name of the customer who placed the
+order. Sort the results by the date on which the order was placed. Used Hands*/
+
+    /* traditional approach */
+SELECT order#, firstname, lastname
+FROM orders o, customers cu
+WHERE o.customer# = cu.customer# AND o.shipdate IS NULL
+ORDER BY orderdate
+
+	
+	/* JOIN keyword */
+SELECT order#, firstname, Lastname
+FROM orders o JOIN customers cu
+ON o.customer# = cu.customer# AND shipdate IS NULL
+ORDER BY orderdate
+
+	
+
+/*3. Produce a list of all customers who live in the state of Florida and have ordered books
+about computers.*/
+
+    /* traditional approach */
+SELECT c.customer#, c.firstname, c.lastname, o.order#, i.isbn, b.category, c.state
+FROM customers c, orders o, books b, orderitems i
+WHERE c.customer# = o.customer# AND o.order# = i.order# AND STATE = 'FL' AND b.category = 'COMPUTER'
+
+	
+	/* JOIN keyword */
+SELECT customer#, c.firstname, c.lastname, order#, isbn, b.category, c.state
+FROM customers c  JOIN orders o USING (customer#) JOIN orderitems i using (order#) JOIN books b USING (isbn)
+WHERE state = 'FL' AND category = 'COMPUTER'
+
+/*4. Determine which books customer Jake Lucas has purchased. Perform the search using the
+customer name, not the customer number. If he has purchased multiple copies of the same
+book, unduplicate the results.*/
+
+    /* traditional approach */
+SELECT DISTINCT customers.firstname, customers.lastname, books.title
+FROM customers, orders, orderitems, books
+WHERE (customers.firstname) = 'JAKE' AND (customers.lastname) = 'LUCAS'
+AND customers.customer# = orders.customer#
+AND orderitems.order# = orders.order#
+AND books.isbn = orderitems.isbn
+	
+	/* JOIN keyword */
+SELECT DISTINCT customers.firstname, Customers.lastname, books.title
+FROM customers INNER JOIN orders 
+ON customers.customer# = orders.customer#
+INNER JOIN orderitems 
+ON orderitems.order# = orders.order#
+LEFT JOIN books 
+ON books.isbn = orderitems.isbn
+WHERE Customers.firstname = 'JAKE' AND customers.lastname = 'LUCAS'
+
+
+/*5. Determine the profit of each book sold to Jake Lucas, using the actual price the customer
+paid (not the book’s regular retail price). Sort the results by order date. If more than one
+book was ordered, sort the results by profit amount in descending order. Perform the
+search using the customer name, not the customer number.*/
+
+    /* traditional approach */
+SELECT orders.orderdate, books.title, (orderitems.paideach-books.cost) "PROFIT"
+FROM customers, orders, orderitems, books
+WHERE customers.firstname = 'JAKE'
+AND customers.lastname = 'LUCAS'
+AND customers.customer# = orders.customer#
+AND orderitems.order# = orders.order#
+AND books.isbn = orderitems.isbn
+ORDER BY profit DESC, orderdate
+	
+	/* JOIN keyword */
+SELECT orders.orderdate, books.title, (orderitems.paideach-books.cost) "PROFIT"
+FROM customers NATURAL JOIN orders
+NATURAL JOIN orderitems
+NATURAL JOIN books
+WHERE customers.firstname = 'JAKE'
+AND customers.lastname = 'LUCAS'
+ORDER BY profit DESC, orderdate
+
+/*6. Which books were written by an author with the last name Adams? Perform the search
+using the author name.*/
+
+    /* traditional approach */
+SELECT books.title, lname
+FROM books, bookauthor, author
+WHERE books.isbn = bookauthor.isbn
+AND bookauthor.authorid = author.authorid
+AND author.lname = 'ADAMS'
+	
+	/* JOIN keyword */
+SELECT books.title, lname
+FROM books NATURAL JOIN bookauthor
+NATURAL JOIN author
+WHERE author.lname = 'ADAMS'
+
+/*7. What gift will a customer who orders the book Shortest Poems receive? Use the actual
+book retail value to determine the gift.*/
+
+    /* traditional approach */
+SELECT title, gift
+FROM books, promotion
+WHERE books.title = 'SHORTEST POEMS' AND retail >= minretail AND retail <= maxretail
+	
+	/* JOIN keyword */
+SELECT title, gift
+FROM books NATURAL JOIN promotion
+WHERE books.title = 'SHORTEST POEMS' AND retail >= minretail AND retail <= maxretail
+
+/*8. Identify the authors of the books Becca Nelson ordered. Perform the search using the
+customer name.*/
+
+    /* traditional approach */
+SELECT author.lname||', '||author.fname "AUTHOR"
+FROM customers, orders, books, orderitems, bookauthor, author
+WHERE customers.customer# = orders.customer#
+AND orders.order# = orderitems.order#
+AND orderitems.isbn = books.isbn
+and books.isbn = bookauthor.isbn
+AND bookauthor.authorid = author.authorid
+AND customers.lastname = 'NELSON'
+AND customers.firstname = 'BECCA'
+	
+	/* JOIN keyword */
+SELECT author.lname||', '||author.fname "AUTHOR"
+FROM customers NATURAL JOIN orders
+NATURAL JOIN books
+NATURAL JOIN orderitems
+NATURAL join bookauthor
+NATURAL JOIN author
+WHERE customers.lastname = 'NELSON'
+AND customers.firstname = 'BECCA'
+
+/*9. Display a list of all books in the BOOKS table. If a book has been ordered by a customer,
+also list the corresponding order number and the state in which the customer resides. Used Hands*/
+
+    /* traditional approach */
+SELECT books.title, orders.order#, customers.state
+FROM books, orderitems, orders, customers
+WHERE orderitems.order# = orders.order#(+)
+AND books.isbn = orderitems.isbn(+)
+	
+	/* JOIN keyword */
+SELECT books.title, orders.order#, customers.state
+FROM books LEFT JOIN orderitems
+ON books.isbn = orderitems.isbn
+LEFT JOIN orders
+ON orderitems.order# = orders.order#
+LEFT JOIN customers
+ON orders.order# = customers.customer#
+
+/*10. An EMPLOYEES table was added to the JustLee Books database to track employee
+information. Display a list of each employee’s name, job title, and manager’s name. Use
+column aliases to clearly identify employee and manager name values. Include all
+employees in the list and sort by manager name. Used Hands*/
+
+    /* traditional approach */
+SELECT e.first_name||' '||e.last_name "EMPLOYEE NAME", e.job_id, m.first_name||' '||m.last_name "MANAGER_ID"
+FROM employees e, employees m
+WHERE e.manager_id = m.employee_id(+)
+ORDER BY "MANAGER_ID"
+	
+	/* JOIN keyword */
+SELECT e.first_name||' '||e.last_name "EMPLOYEE NAME", e.job_id, m.first_name||' '||m.last_name "MANAGER_ID"
+FROM employees e Left OUTER JOIN employees m
+ON e.manager_id = m.employee_id
+ORDER BY "MANAGER_ID"
+
+
+
+
+
+
+
+
+

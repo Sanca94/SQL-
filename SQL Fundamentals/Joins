@@ -1,0 +1,61 @@
+/*WHERE clause In the traditional approach, the
+WHERE clause indicates which
+columns should be used to join
+tables.*/
+
+SELECT columnname [,...]
+FROM tablename1, tablename2
+WHERE tablename1.columnname <comparison operator> tablename2.columnname;
+
+/*NATURAL JOIN keywords
+These keywords are used in the
+FROM clause to join tables containing a common column with
+the same name and definition.*/
+
+SELECT columnname [,...]
+FROM tablename1
+NATURAL JOIN
+tablename2;
+
+/*JOIN ... USING keywords
+The JOIN keyword is used in the
+FROM clause; combined with the
+USING clause, it identifies the
+common column used to join the
+tables. Normally, it’s used if the
+tables have more than one commonly named column and only
+one is being used for the join.*/
+
+SELECT columnname [,...]
+FROM tablename1
+JOIN tablename2
+USING (columnname);
+
+/* JOIN ... ON keywords
+The JOIN keyword is used in the
+FROM clause. The ON clause
+identifies the column used to join
+the tables.*/
+
+SELECT columnname [,...]
+FROM tablename1
+JOIN tablename2
+ON tablename1.columnname
+<comparison operator>
+tablename2.
+columnname;
+
+/*OUTER JOIN keywords Can be a
+RIGHT, LEFT, or
+FULL outer join
+Indicates that at least one of the
+tables doesn’t have a matching
+row in the other table.*/
+
+SELECT columnname [,...]
+FROM tablename1
+[RIGHT|LEFT|FULL] OUTER
+JOIN tablename2
+ON tablename1.
+columnname =
+tablename2.columnname;
